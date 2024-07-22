@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-M_SRC = mandatory/philo.c mandatory/check_arguments.c
+M_SRC = mandatory/philo.c mandatory/check_arguments.c mandatory/parse_args.c mandatory/create_philos.c
 
 # B_SRC =
 
@@ -18,7 +18,7 @@ O_M_SRC = $(M_SRC:.c=.o)
 # O_B_SRC = $(B_SRC:.c=.o)
 
 CC= cc
-CFLAGS= -Wall -Werror -Wextra
+CFLAGS= -g
 
 NAME=philo
 
@@ -35,7 +35,7 @@ all: $(NAME)
 # bonus: $(NAME_BONUS)
 
 $(NAME): $(O_M_SRC)
-	$(CC) $(CFLAGS) $(O_M_SRC) -o $(NAME)
+	$(CC) $(CFLAGS) -fsanitize=address $(O_M_SRC) -o $(NAME)
 
 # $(NAME_BONUS): $(O_B_SRC)
 # 	$(CC) $(CFLAGS) $(O_B_SRC) -o $(NAME_BONUS)

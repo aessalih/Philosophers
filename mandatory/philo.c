@@ -14,6 +14,14 @@
 
 int	main(int ac, char **av)
 {
+	t_philo	*philos;
+	t_info	*info;
+
+	philos = NULL;
 	check_args(ac, av);
+	parse_args(ac, av, info);
+	printf("I wad here3\n");
+	// philos = create_philos(av);
+	printf("I wad here4\n");
 	return (0);
 }
