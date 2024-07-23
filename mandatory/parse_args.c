@@ -50,8 +50,11 @@ t_info	*parse_args(int ac, char **av)
 	info->timetodie = ft_atoi(av[2]);
 	info->timetoeat = ft_atoi(av[3]);
 	info->timetosleep = ft_atoi(av[4]);
-	info->numofmeals = ft_atoi(av[5]);
-	if (info->numofmeals <= 0 || info->numofphilo <= 0)
+	if (av[5])
+		info->numofmeals = ft_atoi(av[5]);
+	else
+		info->numofmeals = 0;
+	if (info->numofmeals < 0 || info->numofphilo <= 0)
 		return (write(2, "Please enter postive integers\n", 31),
 			free(info), NULL);
 	if (info->timetodie <= 0 || info->timetoeat <= 0 || info->timetosleep <= 0)

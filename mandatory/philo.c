@@ -25,13 +25,7 @@ int	main(int ac, char **av)
 	info = parse_args(ac, av);
 	if (info == NULL)
 		return (1);
-	printf("info->numberofphilo: %ld\n", info->numofphilo);
-	printf("info->timeToDie: %ld\n", info->timetodie);
-	printf("info->timeToEat: %ld\n", info->timetoeat);
-	printf("info->timeToSleep: %ld\n", info->timetosleep);
-	if (ac == 6)
-		printf("info->numOfMeals: %ld\n", info->numofmeals);
-	philos = create_philos(av, info);
+	philos = create_philos(info);
 	if (philos == NULL)
 		return (write(2, "malloc failed\n", 15), free(info), 1);
 	return (0);

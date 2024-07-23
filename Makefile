@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-M_SRC = mandatory/philo.c mandatory/check_arguments.c mandatory/parse_args.c mandatory/create_philos.c
+M_SRC = mandatory/philo.c mandatory/check_arguments.c mandatory/parse_args.c mandatory/create_philos.c mandatory/ft_free.c
 
 # B_SRC =
 

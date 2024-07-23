@@ -43,7 +43,8 @@ typedef struct s_info
 }	t_info;
 
 int		check_args(int ac, char **av);
-t_philo	*create_philos(char **av, t_info *info);
+t_philo	*create_philos(t_info *info);
 t_info	*parse_args(int ac, char **av);
+void	ft_free(t_philo *philo);
 
 #endif
