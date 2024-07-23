@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_args.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/23 09:49:05 by aessalih          #+#    #+#             */
+/*   Updated: 2024/07/23 09:56:49 by aessalih         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 long	ft_atoi(const char *str)
@@ -29,32 +41,21 @@ long	ft_atoi(const char *str)
 	return (j * n);
 }
 
-
-void	parse_args(int ac, char **av, t_info *info)
+t_info	*parse_args(int ac, char **av)
 {
-	if (ac == 5)
-	{
-		printf("I was here1\n");
-		info->numOfphilo = ft_atoi(av[1]);
-		info->timeToDie = ft_atoi(av[2]);
-		info->timeToEat = ft_atoi(av[3]);
-		info->timeToSleep = ft_atoi(av[4]);
-		if (info->numOfphilo <= 0 || info->timeToSleep <= 0)
-			(write(2, "Please enter postive integers\n", 31), exit (1));
-		if (info->timeToDie <= 0 || info->timeToEat <= 0)
-			(write(2, "Please enter postive integers\n", 31), exit (1));
-		printf("I was here2\n");
-	}
-	else
-	{
-		info->numOfphilo = ft_atoi(av[1]);
-		info->timeToDie = ft_atoi(av[2]);
-		info->timeToEat = ft_atoi(av[3]);
-		info->timeToSleep = ft_atoi(av[4]);
-		info->numOfMeals = ft_atoi(av[5]);
-		if (info->numOfMeals <= 0 || info->numOfphilo <= 0)
-			(write(2, "Please enter postive integers\n", 31), exit (1));
-		if (info->timeToDie <= 0 || info->timeToEat <= 0 || info->timeToSleep <= 0)
-			(write(2, "Please enter postive integers\n", 31), exit (1));
-	}
+	t_info	*info;
+
+	info = malloc(sizeof(info));
+	info->numofphilo = ft_atoi(av[1]);
+	info->timetodie = ft_atoi(av[2]);
+	info->timetoeat = ft_atoi(av[3]);
+	info->timetosleep = ft_atoi(av[4]);
+	info->numofmeals = ft_atoi(av[5]);
+	if (info->numofmeals <= 0 || info->numofphilo <= 0)
+		return (write(2, "Please enter postive integers\n", 31),
+			free(info), NULL);
+	if (info->timetodie <= 0 || info->timetoeat <= 0 || info->timetosleep <= 0)
+		return (write(2, "Please enter postive integers\n", 31),
+			free(info), NULL);
+	return (info);
 }

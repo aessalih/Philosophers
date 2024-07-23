@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:29:37 by aessalih          #+#    #+#             */
-/*   Updated: 2024/07/21 11:52:03 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:06:20 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,26 @@
 
 typedef struct s_philo
 {
-	int				philoIndex;
-	int				philoFork;
+	int				philoindex;
+	int				philofork;
+	long			timetodie;
+	long			timetoeat;
+	long			timetosleep;
+	long			numofmeals;
 	struct s_philo	*next;
-} t_philo;
+}	t_philo;
 
 typedef struct s_info
 {
-	long	numOfphilo;
-	long	timeToDie;
-	long	timeToEat;
-	long	timeToSleep;
-	long	numOfMeals;
-} t_info;
+	long	numofphilo;
+	long	timetodie;
+	long	timetoeat;
+	long	timetosleep;
+	long	numofmeals;
+}	t_info;
 
-
-void	check_args(int ac, char **av);
-t_philo	*create_philos(char **av);
-void	parse_args(int ac, char **av, t_info *info);
+int		check_args(int ac, char **av);
+t_philo	*create_philos(char **av, t_info *info);
+t_info	*parse_args(int ac, char **av);
 
 #endif
