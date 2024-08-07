@@ -6,11 +6,12 @@
 #    By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 10:34:17 by aessalih          #+#    #+#              #
-#    Updated: 2024/07/21 12:16:59 by aessalih         ###   ########.fr        #
+#    Updated: 2024/08/04 19:09:09 by aessalih         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-M_SRC = mandatory/philo.c mandatory/check_arguments.c mandatory/parse_args.c mandatory/create_philos.c mandatory/ft_free.c
+M_SRC = mandatory/philo.c mandatory/check_arguments.c mandatory/parse_args.c mandatory/create_philos.c \
+	mandatory/ft_start.c mandatory/ft_free.c
 
 # B_SRC =
 
@@ -35,7 +36,7 @@ all: $(NAME)
 # bonus: $(NAME_BONUS)
 
 $(NAME): $(O_M_SRC)
-	$(CC) $(CFLAGS) -fsanitize=address $(O_M_SRC) -o $(NAME)
+	$(CC) $(CFLAGS) -fsanitize=address -pthread $(O_M_SRC) -o $(NAME)
 
 # $(NAME_BONUS): $(O_B_SRC)
 # 	$(CC) $(CFLAGS) $(O_B_SRC) -o $(NAME_BONUS)

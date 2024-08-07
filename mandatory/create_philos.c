@@ -8,15 +8,18 @@ t_philo	*ft_circularlist(t_philo *list)
 	while (head->next)
 		head = head->next;
 	head->next = list;
+	list->previous = head;
 	return (head);
 }
 
 t_philo	*ft_philolist(t_philo *list, t_philo *node)
 {
 	t_philo	*head;
+	t_philo	*prev;
 	int	i = 0;
 
 	head = list;
+	prev = list;
 	if (head == NULL && node == NULL)
 		return (NULL);
 	if (head == NULL)
@@ -26,6 +29,9 @@ t_philo	*ft_philolist(t_philo *list, t_philo *node)
 	while (head->next)
 		head = head->next;
 	head->next = node;
+	while (prev->next != node)
+		prev = prev->next;
+	node->previous = prev;
 	return (list);
 }
 
@@ -43,6 +49,7 @@ t_philo	*ft_newnode(int	index, t_info *info)
 	new->timetosleep = info->timetosleep;
 	new->numofmeals = info->numofmeals;
 	new->next = NULL;
+	new->previous = NULL;
 	return (new);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:28:28 by aessalih          #+#    #+#             */
-/*   Updated: 2024/07/23 10:05:42 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/08/04 19:31:51 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,7 @@ int	main(int ac, char **av)
 	philos = create_philos(info);
 	if (philos == NULL)
 		return (write(2, "malloc failed\n", 15), free(info), 1);
+	ft_start(philos, info->numofphilo);
+	free_philos(philos);
 	return (0);
 }
