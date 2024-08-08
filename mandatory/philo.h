@@ -33,8 +33,8 @@ typedef struct s_philo
 	long			timetoeat;
 	long			timetosleep;
 	long			numofmeals;
-	pthread_mutex_t	*fork;
-	pthread_mutex_t	*lock;
+	pthread_mutex_t	fork;
+	pthread_mutex_t	lock;
 	struct s_philo	*next;
 	struct s_philo	*previous;
 }	t_philo;
@@ -53,5 +53,6 @@ t_philo	*create_philos(t_info *info);
 t_info	*parse_args(int ac, char **av);
 void	ft_free(t_philo *philo);
 void	ft_start(t_philo *philos, long numofphilo);
+void	*routine(void *philo);
 
 #endif
