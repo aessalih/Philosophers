@@ -28,15 +28,6 @@ int	main(int ac, char **av)
 	philos = create_philos(info);
 	if (philos == NULL)
 		return (write(2, "malloc failed\n", 15), free(info), 1);
-	t_philo	*t;
-	t = philos;
-	printf("index: %d | address: %p\n\n", t->philoindex, t);
-	t = t->next;
-	while (t != philos)
-	{
-		printf("index: %d | address: %p\n\n", t->philoindex, t);
-		t = t->next;
-	}
 	ft_start(philos, info->numofphilo);
 	ft_free(philos);
 	return (0);

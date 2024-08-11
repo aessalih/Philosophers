@@ -33,8 +33,8 @@ typedef struct s_philo
 	long			timetoeat;
 	long			timetosleep;
 	long			numofmeals;
-	pthread_mutex_t	fork;
-	pthread_mutex_t	lock;
+	pthread_mutex_t	*fork;
+	pthread_mutex_t	*lock;
 	struct s_philo	*next;
 	struct s_philo	*previous;
 }	t_philo;

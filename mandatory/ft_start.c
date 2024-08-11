@@ -31,46 +31,50 @@ int	j = 0;
 static void	initialize_mutex(t_philo *philo)
 {
 	t_philo	*tail;
+	long	i;
+	long	j;
 
 	tail = philo;
-	pthread_mutex_init(&(tail->fork), NULL);
-	pthread_mutex_init(&(tail->lock), NULL);
-	while (tail != philo)
+	i = 0;
+	j = philo->numofphilo;
+	// printf("philonumber: %ld\n", philo->numofphilo);
+	// philo = philo->next;
+	// while (philo != tail)
+	// {
+	// 	printf("philonumber: %ld\n", philo->numofphilo);
+	// 	philo = philo->next;
+	// }
+	while (i < j)
 	{
-		printf("here\n");
-		// printf("pilo index: %d\n", tail->philoindex);
-		pthread_mutex_init(&(tail->fork), NULL);
-		printf("here\n\n");
-		pthread_mutex_init(&(tail->lock), NULL);
-		// printf("tail->next: %d\n", tail->next->philoindex);
-		tail = tail->next;
+		// printf("-------> %p\n", philo);
+		philo->fork = malloc(sizeof(pthread_mutex_t));
+		philo->lock = malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init(philo->fork, NULL);
+		pthread_mutex_init(philo->lock, NULL);
+		philo = philo->next;
+		i++;
+		// printf("%d\n", philo->numofphilo);
 	}
 }
 
 static void	destroy_mutex(t_philo *philo)
 {
-	t_philo	*head;
 	t_philo	*tail;
 
-	head = philo->next;
 	tail = philo;
-	int i = 0;
-		printf("i: %d\n", i++);
-	while (head != tail)
+	if (pthread_mutex_destroy(tail->lock))
+		perror("mutex_destroy failed 2\n");
+	if (pthread_mutex_destroy(tail->fork))
+		perror("mutex_destroy failed 1\n");
+	tail = tail->next;
+	while (tail != philo)
 	{
-		pthread_mutex_unlock(&(head->fork));
-		if (pthread_mutex_destroy(&(head->fork)))
-			perror("destroy mutex failed\n");
-		printf("i: %d\n", i++);
-		pthread_mutex_destroy(&(head->lock));
-		head = head->next;
-		printf("i: %d\n", i++);
+		if (pthread_mutex_destroy(tail->lock))
+			perror("destroy mutex failed 4\n");
+		if (pthread_mutex_destroy(tail->fork))
+			perror("destroy mutex failed 3\n");
+		tail = tail->next;
 	}
-		printf("i: %d\n", i++);
-	pthread_mutex_destroy(&(head->fork));
-		printf("i: %d\n", i++);
-	pthread_mutex_destroy(&(head->lock));
-		printf("i: %d\n", i++);
 }
 
 void	*routine(void *philo)
@@ -78,23 +82,22 @@ void	*routine(void *philo)
 	t_philo	*t;
 
 	t = (t_philo*)philo;
-	// pthread_mutex_lock(&t->philofork);
-	for (int i = 0; i < 1000; i++)
+	pthread_mutex_lock(t->fork);
+	for (int i = 0; i < 10000; i++)
 		j++;
-	// pthread_mutex_unlock(&t->philofork);
+	pthread_mutex_unlock(t->fork);
 	return (NULL);
 }
 
 void	ft_start(t_philo *philos, long numofphilo)
 {
 	int		i;
-	int		j = 0;
 
-	i = 0;
 	initialize_mutex(philos);
+	i = 0;
 	while (i < numofphilo)
 	{
-		if (pthread_create(&philos->thread, NULL, &routine, &philos))
+		if (pthread_create(&philos->thread, NULL, &routine, philos))
 			perror("pthread_create function failed\n");
 		philos = philos->next;
 		i++;
@@ -102,8 +105,11 @@ void	ft_start(t_philo *philos, long numofphilo)
 	i = 0;
 	while (i < numofphilo)
 	{
-		if (pthread_join(philos->thread, NULL))
+		if (pthread_join(philos->thread, NULL) != 0)
+		{
+			printf("join value: %d\n\n\n", pthread_join(philos->thread, NULL));
 			perror("pthread_join failed\n");
+		}
 		philos = philos->next;
 		i++;
 	}
