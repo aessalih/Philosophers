@@ -25,15 +25,13 @@ int	ft_sleep(long timetosleep)
 		return (1);
 	}
 	time = gettime();
-	printf("%lf\n\n\n", time);
 	while ((gettime() - time) < timetosleep)
 		;
-	printf("seconds: %zu, microseconds: %d\n", tv.tv_sec, tv.tv_usec);
 	return (0);
 }
 
-int	main()
-{
-	int i = ft_sleep(10000);
-	return (0);
-}
+// int	main()
+// {
+// 	int i = ft_sleep(10000);
+// 	return (0);
+// }

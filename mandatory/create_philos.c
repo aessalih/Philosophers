@@ -42,6 +42,7 @@ t_philo	*ft_newnode(int	index, t_info *info)
 	new = malloc(sizeof(t_philo));
 	if (new == NULL)
 		return (NULL);
+	new->dead = 0;
 	new->numofphilo = info->numofphilo;
 	new->philoindex = index;
 	new->philofork = 1;

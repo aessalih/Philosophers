@@ -54,5 +54,10 @@ t_info	*parse_args(int ac, char **av);
 void	ft_free(t_philo *philo);
 void	ft_start(t_philo *philos, long numofphilo);
 void	*routine(void *philo);
+double	gettime();
+int		ft_sleep(long timetosleep);
+void	ft_print_sleep(t_philo *t, double time);
+void	ft_eat(t_philo *t, double time);
+void	ft_think(t_philo *t, double time);
 
 #endif

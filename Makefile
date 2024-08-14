@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 M_SRC = mandatory/philo.c mandatory/check_arguments.c mandatory/parse_args.c mandatory/create_philos.c \
-	mandatory/ft_start.c mandatory/ft_free.c
+	mandatory/ft_start.c mandatory/ft_free.c mandatory/ft_actions.c mandatory/ft_sleep.c
 
 # B_SRC =
 
