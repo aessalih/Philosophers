@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:49:05 by aessalih          #+#    #+#             */
-/*   Updated: 2024/07/23 09:56:49 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:23:58 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ t_info	*parse_args(int ac, char **av)
 {
 	t_info	*info;
 
-	info = malloc(sizeof(info));
+	info = malloc(sizeof(t_info));
 	info->numofphilo = ft_atoi(av[1]);
 	info->timetodie = ft_atoi(av[2]);
 	info->timetoeat = ft_atoi(av[3]);
 	info->timetosleep = ft_atoi(av[4]);
-	if (av[5])
+	if (ac == 6)
 		info->numofmeals = ft_atoi(av[5]);
 	else
 		info->numofmeals = 0;
@@ -60,5 +60,8 @@ t_info	*parse_args(int ac, char **av)
 	if (info->timetodie <= 0 || info->timetoeat <= 0 || info->timetosleep <= 0)
 		return (write(2, "Please enter postive integers\n", 31),
 			free(info), NULL);
+	if (info->numofphilo == 1)
+		return(write(1, "1 is died\n", 11), free(info), NULL);
+	info->dead = 0;
 	return (info);
 }

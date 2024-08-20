@@ -16,7 +16,6 @@ t_philo	*ft_philolist(t_philo *list, t_philo *node)
 {
 	t_philo	*head;
 	t_philo	*prev;
-	int	i = 0;
 
 	head = list;
 	prev = list;
@@ -42,7 +41,6 @@ t_philo	*ft_newnode(int	index, t_info *info)
 	new = malloc(sizeof(t_philo));
 	if (new == NULL)
 		return (NULL);
-	new->dead = 0;
 	new->numofphilo = info->numofphilo;
 	new->philoindex = index;
 	new->philofork = 1;
@@ -50,6 +48,7 @@ t_philo	*ft_newnode(int	index, t_info *info)
 	new->timetoeat = info->timetoeat;
 	new->timetosleep = info->timetosleep;
 	new->numofmeals = info->numofmeals;
+	new->dead = &info->dead;
 	new->next = NULL;
 	new->previous = NULL;
 	return (new);
