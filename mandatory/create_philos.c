@@ -1,4 +1,5 @@
 #include "philo.h"
+#include <stdlib.h>
 
 t_philo	*ft_circularlist(t_philo *list)
 {
@@ -49,9 +50,25 @@ t_philo	*ft_newnode(int	index, t_info *info)
 	new->timetosleep = info->timetosleep;
 	new->numofmeals = info->numofmeals;
 	new->dead = &info->dead;
+	new->wait = &info->waitphilo;
+	new->print_lock = info->lock;
+	new->dead_lock = info->dead_lock;
+	new->dead_flag = info->dead_flag;
+	new->fork = malloc(sizeof(pthread_mutex_t));
 	new->next = NULL;
 	new->previous = NULL;
 	return (new);
+}
+
+void	ft_shareforks(t_philo *philo) {
+	int	i;
+
+	i = 0;
+	while (i < philo->numofphilo) {
+		philo->next_fork = philo->next->fork;
+		philo = philo->next;
+		i++;
+	}
 }
 
 t_philo	*create_philos(t_info *info)
@@ -71,5 +88,6 @@ t_philo	*create_philos(t_info *info)
 		i++;
 	}
 	philos = ft_circularlist(philos);
+	ft_shareforks(philos);
 	return (philos);
 }

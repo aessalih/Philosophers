@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:49:05 by aessalih          #+#    #+#             */
-/*   Updated: 2024/08/19 14:23:58 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/09/03 10:43:24 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,10 @@ t_info	*parse_args(int ac, char **av)
 	if (info->timetodie <= 0 || info->timetoeat <= 0 || info->timetosleep <= 0)
 		return (write(2, "Please enter postive integers\n", 31),
 			free(info), NULL);
-	if (info->numofphilo == 1)
-		return(write(1, "1 is died\n", 11), free(info), NULL);
 	info->dead = 0;
+	info->waitphilo = 0;
+	info->lock = malloc(sizeof(pthread_mutex_t));
+	info->dead_lock = malloc(sizeof(pthread_mutex_t));
+	info->dead_flag = malloc(sizeof(pthread_mutex_t));
 	return (info);
 }

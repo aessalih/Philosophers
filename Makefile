@@ -6,7 +6,7 @@
 #    By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 10:34:17 by aessalih          #+#    #+#              #
-#    Updated: 2024/08/18 15:57:10 by aessalih         ###   ########.fr        #
+#    Updated: 2024/09/02 21:36:41 by aessalih         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ O_M_SRC = $(M_SRC:.c=.o)
 # O_B_SRC = $(B_SRC:.c=.o)
 
 CC= cc
-CFLAGS= -Werror -Wextra -Wall -g
+CFLAGS= -Werror -Wextra -Wall #-fsanitize=thread -g
 
 NAME=philo
 

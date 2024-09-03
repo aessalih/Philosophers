@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:29:37 by aessalih          #+#    #+#             */
-/*   Updated: 2024/08/19 14:39:36 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/09/03 10:44:13 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,12 @@ typedef struct s_philo
 	long			numofmeals;
 	double			lastmeal;
 	double			time;
+	int				*wait;
 	pthread_mutex_t	*fork;
-	pthread_mutex_t	*lock;
+	pthread_mutex_t	*next_fork;
+	pthread_mutex_t	*print_lock;
+	pthread_mutex_t	*dead_lock;
+	pthread_mutex_t	*dead_flag;
 	struct s_philo	*next;
 	struct s_philo	*previous;
 }	t_philo;
@@ -52,7 +56,11 @@ typedef struct s_info
 	long	timetoeat;
 	long	timetosleep;
 	long	numofmeals;
+	pthread_mutex_t	*lock;
+	pthread_mutex_t	*dead_lock;
+	pthread_mutex_t	*dead_flag;
 	int		dead;
+	int		waitphilo;
 }	t_info;
 
 int		check_args(int ac, char **av);
@@ -63,10 +71,11 @@ void	ft_start(t_philo *philos, long numofphilo);
 void	*routine(void *philo);
 double	gettime();
 int		ft_sleep(long timetosleep);
-void	ft_print_sleep(t_philo *t, double time);
-void	ft_eat(t_philo *t, double time);
-void	ft_think(t_philo *t, double time);
+int		ft_print_sleep(t_philo *t, double time);
+int		ft_eat(t_philo *t, double time);
+int		ft_think(t_philo *t, double time);
 void	custom_print(t_philo *t, double time, int flag);
 void	custom_print(t_philo *t, double time, int flag);
+int		ft_simulation(t_philo *t);
 
 #endif

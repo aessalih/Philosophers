@@ -1,4 +1,5 @@
 #include "philo.h"
+#include <unistd.h>
 
 double	gettime()
 {
@@ -26,7 +27,7 @@ int	ft_sleep(long timetosleep)
 	}
 	time = gettime();
 	while ((gettime() - time) < timetosleep)
-		;
+		usleep(100);
 	return (0);
 }
 

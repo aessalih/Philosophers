@@ -6,27 +6,15 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:22:57 by aessalih          #+#    #+#             */
-/*   Updated: 2024/08/19 17:08:09 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/09/03 11:00:09 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
-// typedef struct s_philo
-// {
-// 	pthread_t		*thread;
-// 	int				philoindex;
-// 	int				dead;
-// 	long			timetodie;
-// 	long			timetoeat;
-// 	long			timetosleep;
-// 	long			numofmeals;
-// 	pthread_mutex_t	*fork;
-// 	pthread_mutex_t	*lock;
-// 	struct s_philo	*next;
-// 	struct s_philo	*previous;
-// }	t_philo;
-
+#include <stdio.h>
+#include <sys/_pthread/_pthread_mutex_t.h>
+#include <unistd.h>
 
 static void	initialize_mutex(t_philo *philo)
 {
@@ -37,60 +25,61 @@ static void	initialize_mutex(t_philo *philo)
 	tail = philo;
 	i = 0;
 	j = philo->numofphilo;
+	pthread_mutex_init(philo->print_lock, NULL);
+	pthread_mutex_init(philo->dead_lock, NULL);
+	pthread_mutex_init(philo->dead_flag, NULL);
 	while (i < j)
 	{
-		philo->fork = malloc(sizeof(pthread_mutex_t));
-		philo->lock = malloc(sizeof(pthread_mutex_t));
 		pthread_mutex_init(philo->fork, NULL);
-		pthread_mutex_init(philo->lock, NULL);
 		philo = philo->next;
 		i++;
 	}
 }
 
-// static void	destroy_mutex(t_philo *philo)
-// {
-// 	t_philo	*tail;
-
-// 	tail = philo;
-// 	if (pthread_mutex_destroy(tail->lock))
-// 		perror("mutex_destroy failed 2\n");
-// 	if (pthread_mutex_destroy(tail->fork))
-// 		perror("mutex_destroy failed 1\n");
-// 	tail = tail->next;
-// 	while (tail != philo)
-// 	{
-// 		if (pthread_mutex_destroy(tail->lock))
-// 			perror("destroy mutex failed 4\n");
-// 		if (pthread_mutex_destroy(tail->fork))
-// 			perror("destroy mutex failed 3\n");
-// 		tail = tail->next;
-// 	}
-// }
-
-void	ft_isdied(t_philo *t, double checktime)
+void	destroy_mutex(t_philo *philo)
 {
-	pthread_mutex_lock(t->lock);
-	if ((gettime() - checktime) > (double)t->timetodie)
+	t_philo	*tail;
+
+	tail = philo;
+	pthread_mutex_destroy(tail->print_lock);
+	pthread_mutex_destroy(tail->dead_lock);
+	pthread_mutex_destroy(tail->dead_flag);
+	pthread_mutex_destroy(tail->fork);
+	tail = tail->next;
+	while (tail != philo)
 	{
-		*(t->dead) = t->philoindex;
-		printf("%d is died\n", t->philoindex);
+		pthread_mutex_destroy(tail->fork);
+		tail = tail->next;
 	}
-	pthread_mutex_unlock(t->lock);
+}
+
+void	ft_isdied(t_philo *t, double *checktime)
+{
+	pthread_mutex_lock(t->dead_flag);
+	if ((gettime() - *checktime) > (double)t->timetodie)
+	{
+		pthread_mutex_lock(t->dead_lock);
+		*t->dead = t->philoindex;
+		pthread_mutex_unlock(t->dead_lock);
+		pthread_mutex_lock(t->print_lock);
+		printf("%zu %d is died\n", (size_t)(gettime() - t->time), t->philoindex);
+		pthread_mutex_unlock(t->print_lock);
+	}
+	pthread_mutex_unlock(t->dead_flag);
 }
 
 void	custom_print(t_philo *t, double time, int flag)
 {
-	pthread_mutex_lock(t->lock);
+	pthread_mutex_lock(t->print_lock);
 	if (flag == FORK)
-		printf("%zu %d has taken a fork\n", (size_t)(gettime() - time), t->philoindex);
+		printf("%zu %d has taken a fork\n", ((size_t)gettime() - (size_t)time), t->philoindex);
 	else if (flag == EAT)
-		printf("%zu %d is eating\n", (size_t)(gettime() - time), t->philoindex);
+		printf("%zu %d is eating\n", ((size_t)gettime() - (size_t)time), t->philoindex);
 	else if (flag == SLEEP)
-		printf("%zu %d is sleeping\n", (size_t)(gettime() - time), t->philoindex);
+		printf("%zu %d is sleeping\n", ((size_t)gettime() - (size_t)time), t->philoindex);
 	else if (flag == THINK)
-		printf("%zu %d is thinking\n", (size_t)(gettime() - time), t->philoindex);
-	pthread_mutex_unlock(t->lock);
+		printf("%zu %d is thinking\n", ((size_t)gettime() - (size_t)time), t->philoindex);
+	pthread_mutex_unlock(t->print_lock);
 }
 
 void	*routine(void *philo)
@@ -98,35 +87,23 @@ void	*routine(void *philo)
 	t_philo	*t;
 
 	t = (t_philo*)philo;
-	////////////////////
-	// ALL THE PHILOS //
-	////////////////////
+	while (1) {
+		pthread_mutex_lock(t->dead_lock);
+		if (*t->wait != 0)
+		{
+			pthread_mutex_unlock(t->dead_lock);
+			break ;
+		}
+		pthread_mutex_unlock(t->dead_lock);
+	}
+	pthread_mutex_lock(t->dead_flag);
 	t->time = gettime();
 	t->lastmeal = gettime();
+	pthread_mutex_unlock(t->dead_flag);
 	while (1)
 	{
-		// pthread_mutex_lock(t->lock);
-		// printf("%zu ms | index : %d\n", (size_t)gettime(), t->philoindex);
-		// pthread_mutex_unlock(t->lock);
-		ft_think(t, t->time);
-		pthread_mutex_lock(t->fork);
-		// pthread_mutex_lock(t->lock);
-		// printf("%zu ms | index : %d\n", (size_t)gettime(), t->philoindex);
-		// pthread_mutex_unlock(t->lock);
-		custom_print(t, t->time, FORK);
-		pthread_mutex_lock(t->next->fork);
-		t->lastmeal = gettime();
-		custom_print(t, t->time, FORK);
-		ft_eat(t, t->time);
-		// pthread_mutex_lock(t->lock);
-		// printf("%zu ms | index : %d\n", (size_t)gettime(), t->philoindex);
-		// pthread_mutex_unlock(t->lock);
-		pthread_mutex_unlock(t->fork);
-		pthread_mutex_unlock(t->next->fork);
-		ft_print_sleep(t, t->time);
-		// pthread_mutex_lock(t->lock);
-		// printf("%zu ms | index : %d\n", (size_t)gettime(), t->philoindex);
-		// pthread_mutex_unlock(t->lock);
+		if (ft_simulation(t))
+			break ;
 	}
 	return (NULL);
 }
@@ -145,9 +122,15 @@ void	monitor(t_philo *philos, long numofphilo)
 	}
 	while (1)
 	{
-		ft_isdied(philos, philos->time);
-		if (*philos->dead != 0)
+		// pthread_mutex_lock(philos->dead_lock);
+		ft_isdied(philos, &philos->lastmeal);
+		// pthread_mutex_unlock(philos->dead_lock);
+		pthread_mutex_lock(philos->dead_lock);
+		if (*philos->dead != 0) {
+			pthread_mutex_unlock(philos->dead_lock);
 			break ;
+		}
+		pthread_mutex_unlock(philos->dead_lock);
 		philos = philos->next;
 	}
 	
@@ -166,6 +149,9 @@ void	ft_start(t_philo *philos, long numofphilo)
 		philos = philos->next;
 		i++;
 	}
+	pthread_mutex_lock(philos->dead_lock);
+	*philos->wait = 1;
+	pthread_mutex_unlock(philos->dead_lock);
 	monitor(philos, numofphilo);
-	// destroy_mutex(philos);
+	destroy_mutex(philos);
 }
