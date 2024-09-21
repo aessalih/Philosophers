@@ -37,9 +37,10 @@ typedef struct s_philo
 	long			timetoeat;
 	long			timetosleep;
 	long			numofmeals;
-	double			lastmeal;
-	double			time;
+	long			lastmeal;
+	long			*time;
 	int				*wait;
+	int				*flag;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*next_fork;
 	pthread_mutex_t	*print_lock;
@@ -56,6 +57,8 @@ typedef struct s_info
 	long	timetoeat;
 	long	timetosleep;
 	long	numofmeals;
+	long	time;
+	int		flag;
 	pthread_mutex_t	*lock;
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*dead_flag;
@@ -69,13 +72,12 @@ t_info	*parse_args(int ac, char **av);
 void	ft_free(t_philo *philo);
 void	ft_start(t_philo *philos, long numofphilo);
 void	*routine(void *philo);
-double	gettime();
+long	gettime();
 int		ft_sleep(long timetosleep);
-int		ft_print_sleep(t_philo *t, double time);
-int		ft_eat(t_philo *t, double time);
-int		ft_think(t_philo *t, double time);
-void	custom_print(t_philo *t, double time, int flag);
-void	custom_print(t_philo *t, double time, int flag);
+int		ft_print_sleep(t_philo *t, long time);
+int		ft_eat(t_philo *t, long time);
+int		ft_think(t_philo *t, long time);
+void	custom_print(t_philo *t, long time, int flag);
 int		ft_simulation(t_philo *t);
 
 #endif

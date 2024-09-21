@@ -19,7 +19,7 @@ O_M_SRC = $(M_SRC:.c=.o)
 # O_B_SRC = $(B_SRC:.c=.o)
 
 CC= cc
-CFLAGS= -Werror -Wextra -Wall #-fsanitize=thread -g
+CFLAGS= -fsanitize=thread -g#-Werror -Wextra -Wall #-fsanitize=thread -g
 
 NAME=philo
 
