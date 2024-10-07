@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_philos.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/07 09:24:04 by aessalih          #+#    #+#             */
+/*   Updated: 2024/10/07 09:25:33 by aessalih         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 t_philo	*ft_circularlist(t_philo *list)
@@ -34,7 +46,7 @@ t_philo	*ft_philolist(t_philo *list, t_philo *node)
 	return (list);
 }
 
-t_philo	*ft_newnode(int	index, t_info *info)
+t_philo	*ft_newnode(int index, t_info *info)
 {
 	t_philo	*new;
 
@@ -66,7 +78,8 @@ void	ft_shareforks(t_philo *philo)
 	int	i;
 
 	i = 0;
-	while (i < philo->numofphilo) {
+	while (i < philo->numofphilo)
+	{
 		philo->next_fork = philo->next->fork;
 		philo = philo->next;
 		i++;
@@ -83,7 +96,7 @@ t_philo	*create_philos(t_info *info)
 	philos = NULL;
 	while (i <= info->numofphilo)
 	{
-		new = ft_newnode(i ,info);
+		new = ft_newnode(i, info);
 		if (new == NULL)
 			return (ft_free(philos), NULL);
 		philos = ft_philolist(philos, new);

@@ -1,0 +1,5 @@
+---> program hanging
+
+---> check in sleep function the died status 
+---> turn on && check the death flag in print function
+---> khdm b _Atomic 

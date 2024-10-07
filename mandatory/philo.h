@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:29:37 by aessalih          #+#    #+#             */
-/*   Updated: 2024/09/03 10:44:13 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/10/07 10:34:04 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
-#include <sys/_pthread/_pthread_mutex_t.h>
+# include <sys/_pthread/_pthread_mutex_t.h>
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
@@ -52,18 +52,18 @@ typedef struct s_philo
 
 typedef struct s_info
 {
-	long	numofphilo;
-	long	timetodie;
-	long	timetoeat;
-	long	timetosleep;
-	long	numofmeals;
-	long	time;
-	int		flag;
+	long			numofphilo;
+	long			timetodie;
+	long			timetoeat;
+	long			timetosleep;
+	long			numofmeals;
+	long			time;
+	int				flag;
 	pthread_mutex_t	*lock;
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*dead_flag;
-	int		dead;
-	int		waitphilo;
+	int				dead;
+	int				waitphilo;
 }	t_info;
 
 int		check_args(int ac, char **av);
@@ -71,13 +71,17 @@ t_philo	*create_philos(t_info *info);
 t_info	*parse_args(int ac, char **av);
 void	ft_free(t_philo *philo);
 void	ft_start(t_philo *philos, long numofphilo);
+void	ft_start_numofmeals(t_philo *philo, long numofphilo);
 void	*routine(void *philo);
-long	gettime();
+long	gettime(void);
 int		ft_sleep(long timetosleep);
 int		ft_print_sleep(t_philo *t, long time);
 int		ft_eat(t_philo *t, long time);
 int		ft_think(t_philo *t, long time);
 void	custom_print(t_philo *t, long time, int flag);
 int		ft_simulation(t_philo *t);
+void	initialize_mutex(t_philo *philo);
+void	destroy_mutex(t_philo *philo);
+void	monitor(t_philo *philos, long numofphilo);
 
 #endif

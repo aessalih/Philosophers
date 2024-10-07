@@ -6,20 +6,18 @@
 #    By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/21 10:34:17 by aessalih          #+#    #+#              #
-#    Updated: 2024/09/02 21:36:41 by aessalih         ###   ########.fr        #
+#    Updated: 2024/10/07 15:42:54 by aessalih         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 M_SRC = mandatory/philo.c mandatory/check_arguments.c mandatory/parse_args.c mandatory/create_philos.c \
-	mandatory/ft_start.c mandatory/ft_free.c mandatory/ft_actions.c mandatory/ft_sleep.c
-
-# B_SRC =
+	mandatory/ft_start.c mandatory/ft_free.c mandatory/ft_actions.c mandatory/ft_sleep.c mandatory/ft_mutex.c \
+	mandatory/ft_start_numofmeals.c
 
 O_M_SRC = $(M_SRC:.c=.o)
-# O_B_SRC = $(B_SRC:.c=.o)
 
 CC= cc
-CFLAGS= -fsanitize=thread -g#-Werror -Wextra -Wall #-fsanitize=thread -g
+CFLAGS= -fsanitize=thread -g -Werror -Wextra -Wall #-fsanitize=thread -g
 
 NAME=philo
 
@@ -27,6 +25,9 @@ NAME=philo
 
 # bonus/%.o: bonus/%.c bonus/philo_bonus.h
 # 	$(CC) $(CFLAGS) -c $^ -o $@
+
+azz: all clean
+	clear
 
 mandatory/%.o: mandatory/%.c mandatory/philo.h
 	$(CC) $(CFLAGS) -c $< -o $@
