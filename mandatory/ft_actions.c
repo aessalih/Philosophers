@@ -18,7 +18,6 @@ int	ft_think(t_philo *t, long time)
 	if (*t->dead != 0)
 	{
 		pthread_mutex_unlock(t->dead_lock);
-		pthread_mutex_unlock(t->dead_flag);
 		return (1);
 	}
 	pthread_mutex_unlock(t->dead_lock);
@@ -27,7 +26,6 @@ int	ft_think(t_philo *t, long time)
 	if (*t->dead != 0)
 	{
 		pthread_mutex_unlock(t->dead_lock);
-		pthread_mutex_unlock(t->dead_flag);
 		return (1);
 	}
 	pthread_mutex_unlock(t->dead_lock);

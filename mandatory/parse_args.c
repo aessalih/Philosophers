@@ -16,7 +16,6 @@ long	ft_atoi(const char *str)
 {
 	int		i;
 	long	n;
-	long	k;
 	int		j;
 
 	i = 0;
@@ -31,7 +30,6 @@ long	ft_atoi(const char *str)
 	}
 	while (str[i] && str[i] >= '0' && str[i] <= '9')
 	{
-		k = n;
 		n = n * 10 + (str[i++] - '0');
 		if ((n > INT_MAX && j == 1) || (n < INT_MIN && j == -1))
 			(write(2, "Please enter integers\n", 23), exit (1));

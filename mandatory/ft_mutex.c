@@ -14,11 +14,9 @@
 
 void	initialize_mutex(t_philo *philo)
 {
-	t_philo	*tail;
 	long	i;
 	long	j;
 
-	tail = philo;
 	i = 0;
 	j = philo->numofphilo;
 	pthread_mutex_init(philo->print_lock, NULL);

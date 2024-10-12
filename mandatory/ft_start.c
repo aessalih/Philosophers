@@ -20,10 +20,7 @@ void	ft_isdied(t_philo *t, long *checktime)
 		pthread_mutex_lock(t->dead_lock);
 		*t->dead = t->philoindex;
 		pthread_mutex_unlock(t->dead_lock);
-		pthread_mutex_lock(t->print_lock);
-		printf("%ld %d is died\n", (gettime() - *t->time), t->philoindex);
-		// custom_print ...
-		pthread_mutex_unlock(t->print_lock);
+		custom_print(t, *checktime, DEATH);
 	}
 	pthread_mutex_unlock(t->dead_flag);
 }
@@ -31,15 +28,18 @@ void	ft_isdied(t_philo *t, long *checktime)
 void	custom_print(t_philo *t, long time, int flag)
 {
 	pthread_mutex_lock(t->print_lock);
-	// check the death flag
-	if (flag == FORK)
+	if (flag == DEATH)
+		printf("%ld %d is died\n", (gettime() - time), t->philoindex);
+	pthread_mutex_lock(t->dead_lock);
+	if (flag == FORK && *t->dead == 0)
 		printf("%ld %d has taken a fork\n", (gettime() - time), t->philoindex);
-	else if (flag == EAT)
+	else if (flag == EAT && *t->dead == 0)
 		printf("%ld %d is eating\n", (gettime() - time), t->philoindex);
-	else if (flag == SLEEP)
+	else if (flag == SLEEP && *t->dead == 0)
 		printf("%ld %d is sleeping\n", (gettime() - time), t->philoindex);
-	else if (flag == THINK)
+	else if (flag == THINK && *t->dead == 0)
 		printf("%ld %d is thinking\n", (gettime() - time), t->philoindex);
+	pthread_mutex_unlock(t->dead_lock);
 	// turn on flag
 	pthread_mutex_unlock(t->print_lock);
 }
@@ -104,13 +104,14 @@ void	ft_start(t_philo *philos, long numofphilo)
 	int		i;
 
 	initialize_mutex(philos);
-	(1) && (i = 0, *philos->time = gettime());
+	i = 0;
 	while (i < numofphilo)
 	{
 		if (pthread_create(&philos->thread, NULL, &routine, philos))
 			perror("pthread_create function failed\n");
 		(1) && (philos = philos->next, i++);
 	}
+	*philos->time = gettime();
 	pthread_mutex_lock(philos->dead_lock);
 	*philos->wait = 1;
 	pthread_mutex_unlock(philos->dead_lock);

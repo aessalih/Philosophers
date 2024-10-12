@@ -25,6 +25,7 @@
 # define EAT 2
 # define SLEEP 3
 # define THINK 4
+# define DEATH 0
 
 typedef struct s_philo
 {
