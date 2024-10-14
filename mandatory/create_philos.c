@@ -64,6 +64,7 @@ t_philo	*ft_newnode(int index, t_info *info)
 	new->wait = &info->waitphilo;
 	new->flag = &info->flag;
 	new->time = &info->time;
+	new->x = &info->x;
 	new->print_lock = info->lock;
 	new->dead_lock = info->dead_lock;
 	new->dead_flag = info->dead_flag;

@@ -40,7 +40,6 @@ void	custom_print(t_philo *t, long time, int flag)
 	else if (flag == THINK && *t->dead == 0)
 		printf("%ld %d is thinking\n", (gettime() - time), t->philoindex);
 	pthread_mutex_unlock(t->dead_lock);
-	// turn on flag
 	pthread_mutex_unlock(t->print_lock);
 }
 

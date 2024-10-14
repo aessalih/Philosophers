@@ -12,6 +12,35 @@
 
 #include "philo.h"
 
+void	monitor2(t_philo *philos, long numofphilo)
+{
+	int	i;
+
+	i = 0;
+	while (1)
+	{
+		(ft_isdied(philos, &philos->lastmeal), pthread_mutex_lock(philos->dead_lock));
+		if (*philos->dead != 0)
+		{
+			pthread_mutex_unlock(philos->dead_lock);
+			break ;
+		}
+		(pthread_mutex_unlock(philos->dead_lock), pthread_mutex_lock(philos->meals));
+		if (*philos->x >= philos->numofmeals * philos->numofphilo) {
+			pthread_mutex_unlock(philos->meals);
+			break ;
+		}
+		pthread_mutex_unlock(philos->meals);
+		philos = philos->next;
+	}
+	while (i < numofphilo)
+	{
+		if (pthread_join(philos->thread, NULL))
+			write(2, "pthread_detach failed\n", 28);
+		(1) && (philos = philos->next, i++);
+	}
+}
+
 void *routine_numofmeals(void *philo)
 {
 	t_philo	*t;
@@ -40,31 +69,31 @@ void *routine_numofmeals(void *philo)
 	return (NULL);
 }
 
-void	ft_start_numofmeals(t_philo *philo, long numofphilo)
+void	ft_start_numofmeals(t_philo *philos, long numofphilo)
 {
 	int		i;
 
-	initialize_mutex(philo);
-	(1) && (i = 0, *philo->time = gettime());
+	initialize_mutex(philos);
+	i = 0;
 	while (i < numofphilo)
 	{
-		if (pthread_create(&philo->thread, NULL, &routine_numofmeals, philo))
+		if (pthread_create(&philos->thread, NULL, &routine, philos))
 			perror("pthread_create function failed\n");
-		(1) && (philo = philo->next, i++);
+		(1) && (philos = philos->next, i++);
 	}
-	pthread_mutex_lock(philo->dead_lock);
-	*philo->wait = 1;
-	pthread_mutex_unlock(philo->dead_lock);
-	// while (1)
-	// {
-	// 	pthread_mutex_lock(philo->dead_flag);
-	// 	if (*philo->flag == 0)
-	// 	{
-	// 		pthread_mutex_unlock(philo->dead_flag);
-	// 		break ;
-	// 	}
-	// 	pthread_mutex_unlock(philo->dead_flag);
-	// }
-	
-	(monitor(philo, numofphilo), destroy_mutex(philo));
+	*philos->time = gettime();
+	pthread_mutex_lock(philos->dead_lock);
+	*philos->wait = 1;
+	pthread_mutex_unlock(philos->dead_lock);
+	while (1)
+	{
+		pthread_mutex_lock(philos->dead_flag);
+		if (*philos->flag == 0)
+		{
+			pthread_mutex_unlock(philos->dead_flag);
+			break ;
+		}
+		pthread_mutex_unlock(philos->dead_flag);
+	}
+	(monitor2(philos, numofphilo), destroy_mutex(philos));
 }

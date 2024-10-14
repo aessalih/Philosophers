@@ -60,6 +60,7 @@ t_info	*parse_args(int ac, char **av)
 			free(info), NULL);
 	info->dead = 0;
 	info->waitphilo = 0;
+	info->x = 0;
 	info->time = gettime();
 	info->lock = malloc(sizeof(pthread_mutex_t));
 	info->dead_lock = malloc(sizeof(pthread_mutex_t));
