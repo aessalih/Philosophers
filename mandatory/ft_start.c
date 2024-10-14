@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:22:57 by aessalih          #+#    #+#             */
-/*   Updated: 2024/10/14 11:21:29 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:38:41 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,11 @@ void	*routine(void *philo)
 		}
 		pthread_mutex_unlock(t->dead_lock);
 	}
+	if (t->philoindex % 2) {
+		usleep(t->timetoeat / 2);
+	}
 	// if (t->philoindex % 2 == 1)
 	// 	usleep(1000);
-	t->k = 0;
 	while (1)
 	{
 		if (ft_simulation(t))

@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 09:24:24 by aessalih          #+#    #+#             */
-/*   Updated: 2024/10/07 09:27:02 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:16:20 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ long	gettime(void)
 
 	if (gettimeofday(&tv, NULL))
 	{
-		write(2, "gettimeofday failed\n", 21);
+		write(2, "gettimeofday failed\n", 20);
 		return (0);
 	}
 	time = tv.tv_sec * 1000 + tv.tv_usec / 1000;

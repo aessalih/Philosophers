@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:29:37 by aessalih          #+#    #+#             */
-/*   Updated: 2024/10/14 11:05:06 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:46:29 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_info
 	pthread_mutex_t	*meals;
 	int				dead;
 	int				waitphilo;
+	// _Atomic		int flagging;
 }	t_info;
 
 int		check_args(int ac, char **av);

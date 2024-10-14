@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 09:24:13 by aessalih          #+#    #+#             */
-/*   Updated: 2024/10/14 10:41:17 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:09:07 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ int	ft_simulation(t_philo *t)
 	pthread_mutex_unlock(t->dead_lock);
 	if (ft_think(t, *t->time))
 		return (1);
-	if (t->k == 0 && t->philoindex % 2 == 0) {
-		t->k = 1;
-		usleep(500);
-	}
+	// if (t->k == 0 && t->philoindex % 2 == 0) {
+	// 	t->k = 1;
+	// 	usleep(10000);
+	// }
 	take_fork(t);
 	pthread_mutex_lock(t->dead_flag);
 	t->lastmeal = gettime();

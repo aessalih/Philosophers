@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:40:02 by aessalih          #+#    #+#             */
-/*   Updated: 2024/10/14 11:05:55 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:42:35 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	handle_input(t_info *info)
 	{
 		printf("0 1 is thinking\n");
 		printf("0 1 has taken a fork\n");
+		ft_sleep(info->timetodie);
 		printf("%ld 1 is died\n", info->timetodie);
 		return (1);
 	}
