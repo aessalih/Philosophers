@@ -6,13 +6,13 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 10:19:36 by aessalih          #+#    #+#             */
-/*   Updated: 2024/10/07 15:49:59 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/10/14 11:24:12 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	monitor2(t_philo *philos, long numofphilo)
+void	monitor2(t_philo *philos, long numofphilo, int philo_number)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ void	monitor2(t_philo *philos, long numofphilo)
 			break ;
 		}
 		(pthread_mutex_unlock(philos->dead_lock), pthread_mutex_lock(philos->meals));
-		if (*philos->x >= philos->numofmeals * philos->numofphilo) {
+		if (*philos->x >= philos->numofmeals * philo_number) {
 			pthread_mutex_unlock(philos->meals);
 			break ;
 		}
@@ -61,10 +61,17 @@ void *routine_numofmeals(void *philo)
 	}
 	if (t->philoindex % 2 == 1)
 		usleep(200);
-	while (t->numofmeals--)
+	while (1)
 	{
 		if (ft_simulation(t))
 			break ;
+		pthread_mutex_lock(t->meals);
+		(*t->x)++;
+		if (--t->numofmeals == 0) {
+			pthread_mutex_unlock(t->meals);
+			break ;
+		}
+		pthread_mutex_unlock(t->meals);
 	}
 	return (NULL);
 }
@@ -77,7 +84,7 @@ void	ft_start_numofmeals(t_philo *philos, long numofphilo)
 	i = 0;
 	while (i < numofphilo)
 	{
-		if (pthread_create(&philos->thread, NULL, &routine, philos))
+		if (pthread_create(&philos->thread, NULL, &routine_numofmeals, philos))
 			perror("pthread_create function failed\n");
 		(1) && (philos = philos->next, i++);
 	}
@@ -85,15 +92,6 @@ void	ft_start_numofmeals(t_philo *philos, long numofphilo)
 	pthread_mutex_lock(philos->dead_lock);
 	*philos->wait = 1;
 	pthread_mutex_unlock(philos->dead_lock);
-	while (1)
-	{
-		pthread_mutex_lock(philos->dead_flag);
-		if (*philos->flag == 0)
-		{
-			pthread_mutex_unlock(philos->dead_flag);
-			break ;
-		}
-		pthread_mutex_unlock(philos->dead_flag);
-	}
-	(monitor2(philos, numofphilo), destroy_mutex(philos));
+	usleep(5);
+	(monitor2(philos, numofphilo, i), destroy_mutex(philos));
 }

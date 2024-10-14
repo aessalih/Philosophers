@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 09:24:04 by aessalih          #+#    #+#             */
-/*   Updated: 2024/10/07 09:25:33 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/10/14 07:47:55 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_philo	*ft_newnode(int index, t_info *info)
 	new->print_lock = info->lock;
 	new->dead_lock = info->dead_lock;
 	new->dead_flag = info->dead_flag;
+	new->meals = info->meals;
 	new->fork = malloc(sizeof(pthread_mutex_t));
 	new->next = NULL;
 	new->previous = NULL;

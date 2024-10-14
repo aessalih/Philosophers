@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 09:24:13 by aessalih          #+#    #+#             */
-/*   Updated: 2024/10/07 15:26:15 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/10/14 10:41:17 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,14 @@ int	ft_print_sleep(t_philo *t, long time)
 	return (0);
 }
 
+void	take_fork(t_philo *t)
+{
+	pthread_mutex_lock(t->fork);
+	custom_print(t, *t->time, FORK);
+	pthread_mutex_lock(t->next_fork);
+	custom_print(t, *t->time, FORK);
+}
+
 int	ft_simulation(t_philo *t)
 {
 	pthread_mutex_lock(t->dead_lock);
@@ -82,10 +90,11 @@ int	ft_simulation(t_philo *t)
 	pthread_mutex_unlock(t->dead_lock);
 	if (ft_think(t, *t->time))
 		return (1);
-	pthread_mutex_lock(t->fork);
-	custom_print(t, *t->time, FORK);
-	pthread_mutex_lock(t->next_fork);
-	custom_print(t, *t->time, FORK);
+	if (t->k == 0 && t->philoindex % 2 == 0) {
+		t->k = 1;
+		usleep(500);
+	}
+	take_fork(t);
 	pthread_mutex_lock(t->dead_flag);
 	t->lastmeal = gettime();
 	pthread_mutex_unlock(t->dead_flag);

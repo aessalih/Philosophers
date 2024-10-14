@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 11:29:37 by aessalih          #+#    #+#             */
-/*   Updated: 2024/10/07 10:34:04 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/10/14 11:05:06 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 typedef struct s_philo
 {
 	pthread_t		thread;
+	int				k;
 	int				philoindex;
 	int				philofork;
 	int				*dead;
@@ -48,6 +49,7 @@ typedef struct s_philo
 	pthread_mutex_t	*print_lock;
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*dead_flag;
+	pthread_mutex_t	*meals;
 	struct s_philo	*next;
 	struct s_philo	*previous;
 }	t_philo;
@@ -65,6 +67,7 @@ typedef struct s_info
 	pthread_mutex_t	*lock;
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*dead_flag;
+	pthread_mutex_t	*meals;
 	int				dead;
 	int				waitphilo;
 }	t_info;
@@ -86,5 +89,7 @@ int		ft_simulation(t_philo *t);
 void	initialize_mutex(t_philo *philo);
 void	destroy_mutex(t_philo *philo);
 void	monitor(t_philo *philos, long numofphilo);
+void	ft_isdied(t_philo *t, long *checktime);
+int		handle_input(t_info *info);
 
 #endif

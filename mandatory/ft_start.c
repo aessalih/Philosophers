@@ -6,7 +6,7 @@
 /*   By: aessalih <aessalih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:22:57 by aessalih          #+#    #+#             */
-/*   Updated: 2024/10/07 16:52:00 by aessalih         ###   ########.fr       */
+/*   Updated: 2024/10/14 11:21:29 by aessalih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ void	*routine(void *philo)
 		}
 		pthread_mutex_unlock(t->dead_lock);
 	}
-	if (t->philoindex % 2 == 1)
-		usleep(200);
+	// if (t->philoindex % 2 == 1)
+	// 	usleep(1000);
+	t->k = 0;
 	while (1)
 	{
 		if (ft_simulation(t))
@@ -114,15 +115,6 @@ void	ft_start(t_philo *philos, long numofphilo)
 	pthread_mutex_lock(philos->dead_lock);
 	*philos->wait = 1;
 	pthread_mutex_unlock(philos->dead_lock);
-	while (1)
-	{
-		pthread_mutex_lock(philos->dead_flag);
-		if (*philos->flag == 0)
-		{
-			pthread_mutex_unlock(philos->dead_flag);
-			break ;
-		}
-		pthread_mutex_unlock(philos->dead_flag);
-	}
+	usleep(5);
 	(monitor(philos, numofphilo), destroy_mutex(philos));
 }
